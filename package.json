@@ -1,0 +1,22 @@
+{
+  "name": "@hover/renovate",
+  "version": "0.0.0-semantically-released",
+  "main": "index.js",
+  "repository": "git@github.com:jrolfs/renovate.git",
+  "author": "Jamie Rolfs <jamie.rolfs@hover.to>",
+  "license": "NONE",
+  "private": true,
+  "scripts": {
+    "ci-after-success": "hover-scripts ci-after-success",
+    "commit": "hover-scripts commit",
+    "format": "hover-scripts format",
+    "lint": "hover-scripts lint",
+    "postinstall": "husky install"
+  },
+  "devDependencies": {
+    "@hover/javascript": "^6.89.1",
+    "husky": "^8.0.1",
+    "npm-run-all": "^4.1.5"
+  },
+  "packageManager": "yarn@3.2.1"
+}

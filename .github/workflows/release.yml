@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - next
+      - alpha
+      - beta
+
+jobs:
+  build:
+    name: Check Format + Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-path
+        run: echo "::set-output name=path::$(yarn config get cacheFolder)"
+
+      - name: Setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: 16.x
+
+      - uses: actions/cache@v3
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-path.outputs.path }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Check format
+        run: yarn format --check --no-write '**/*.+(json|json5)'
+
+      - name: Release
+        run: yarn ci-after-success
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SKIP_CODECOV: true

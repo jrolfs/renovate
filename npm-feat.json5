@@ -1,0 +1,22 @@
+/**
+ * ```json
+ * { "extends": ["github>jrolfs/renovate:npm.json5", "github>jrolfs/renovate:npm-feat.json5"] }
+ * ```
+ *
+ * Use `feat(deps)` as a commit prefix for `dependency` upgrades (not `devDependencies`)
+ *
+ */
+
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  packageRules: [
+    //
+    // Commit Prefixes
+    //
+    {
+      matchDepTypes: ['dependencies', 'require'],
+      semanticCommitType: 'feat',
+      semanticCommitScope: 'deps',
+    },
+  ],
+}

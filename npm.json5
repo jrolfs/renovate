@@ -1,0 +1,49 @@
+/**
+ * ```json
+ * { "extends": "github>jrolfs/renovate:npm.json5" }
+ * ```
+ *
+ * Default configuration for npm projects
+ *
+ */
+
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  automergeStrategy: 'rebase',
+  extends: ['config:base', ''],
+  labels: ['dependencies'],
+  prConcurrentLimit: 10,
+  packageRules: [
+    //
+    // Commit Prefixes
+    //
+    {
+      matchPackagePatterns: ['*'],
+      semanticCommitType: 'build',
+      semanticCommitScope: 'deps-dev',
+      additionalBranchPrefix: 'dev/',
+    },
+    {
+      matchDepTypes: ['dependencies', 'require'],
+      semanticCommitType: 'build',
+      semanticCommitScope: 'deps',
+      additionalBranchPrefix: '',
+    },
+    //
+    // Preserve Semantic Version Ranges
+    //
+    {
+      matchPackagePatterns: ['*'],
+      rangeStrategy: 'bump',
+    },
+    //
+    // Automatic Merging
+    //
+    { matchUpdateTypes: ['patch'], automerge: true },
+    {
+      matchUpdateTypes: ['minor', 'patch'],
+      matchDepTypes: ['devDependencies'],
+      automerge: true,
+    },
+  ],
+}
